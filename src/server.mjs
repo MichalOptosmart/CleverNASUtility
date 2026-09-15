@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, resolve, relative } from 'node:path';
 import crypto from 'node:crypto';
-import WebSocket from 'ws';
+import WebSocket from '/data/node_modules/ws/index.js';
 const PORT=Number(process.env.PORT||8787),HOST=process.env.HOST||'0.0.0.0',DATA=process.env.DATA_DIR||'/data',API_TOKEN=process.env.CONNECTOR_API_TOKEN||'',TN_API_URL=process.env.TRUENAS_API_URL||'https://192.168.220.101/api/v2.0';
 const historyFile=join(DATA,'history.json'),conflictsFile=join(DATA,'conflicts.json'),sessions=new Map();await mkdir(DATA,{recursive:true});
 const readJson=async(f,d)=>{try{return JSON.parse(await readFile(f,'utf8'))}catch{return d}};const writeJson=(f,x)=>writeFile(f,JSON.stringify(x,null,2));
