@@ -9,7 +9,7 @@
 <script>
 const $=id=>document.getElementById(id); let browseTarget=null;
 function setTheme(light){document.body.classList.toggle('light',light);localStorage.theme=light?'light':'dark';$('theme').textContent=light?'Tmavý styl':'Světlý styl'} setTheme(localStorage.theme==='light');$('theme').onclick=()=>setTheme(!document.body.classList.contains('light'));
-async function api(path,opt={}){const r=await fetch(path,opt);let d={};try{d=await r.json()}catch{}if(!r.ok)throw Error(d.error||'Požadavek se nezdařil');return d}
+async function api(path,opt={}){const r=await fetch(path,opt);let d={};try{d=await r.json()}catch{}if(r.status===401){showLogin();$('loginError').textContent='Relace vypršela. Přihlaste se znovu.';throw Error('Relace vypršela')}if(!r.ok)throw Error(d.error||'Požadavek se nezdařil');return d}
 async function init(){try{const me=await api('/api/me');showApp(me.username)}catch{showLogin()}}
 function showLogin(){ $('loginCard').classList.remove('hidden');$('app').classList.add('hidden');$('loginError').textContent=''; }
 function showLoginMode(setup=false){$('loginTitle').textContent=setup?'První nastavení':'Přihlášení';$('setupHelp').classList.toggle('hidden',!setup);$('apiKey').classList.toggle('hidden',!setup);$('loginButton').textContent=setup?'Nastavit a přihlásit':'Přihlásit';return setup}
